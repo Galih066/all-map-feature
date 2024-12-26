@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Map from "@/components/Map";
 
 export default function Home() {
   return (
@@ -47,6 +48,10 @@ export default function Home() {
           >
             Read our docs
           </a>
+        </div>
+        <div className="w-full max-w-5xl">
+          <h1 className="text-4xl font-bold mb-8">Mapbox Demo</h1>
+          <Map />
         </div>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
