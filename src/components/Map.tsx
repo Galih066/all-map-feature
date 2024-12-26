@@ -28,7 +28,7 @@ export default function Map() {
 	return (
 		<div
 			ref={mapContainer}
-			className="w-full h-[500px]"
+			className="w-screen h-screen"
 		/>
 	);
 }
