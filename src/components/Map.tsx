@@ -12,12 +12,31 @@ export default function Map() {
 
 	useEffect(() => {
 		if (!mapContainer.current) return;
+		if (navigator.geolocation) {
+			navigator.permissions
+				.query({ name: 'geolocation' })
+				.then(result => {
+					if (result.state === 'granted' || result.state === 'prompt') {
+						navigator.geolocation.getCurrentPosition(
+							position => {
+								const { latitude, longitude } = position.coords;
+								map.current?.setCenter([longitude, latitude]);
+							},
+							error => {
+								console.error(error);
+							}
+						);
+					} else {
+						console.error('Geolocation permission denied');
+					}
+				})
+		}
 
 		map.current = new mapboxgl.Map({
 			container: mapContainer.current,
 			style: 'mapbox://styles/mapbox/streets-v12',
 			center: [-74.5, 40],
-			zoom: 9
+			zoom: 13
 		});
 
 		return () => {
