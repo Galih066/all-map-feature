@@ -11,7 +11,15 @@ export default function LoginPage() {
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		router.push('/');
+		
+		const staticEmail = 'admin@example.com';
+		const staticPassword = 'admin123';
+
+		if (email === staticEmail && password === staticPassword) {
+			router.push('/');
+		} else {
+			alert('Invalid credentials. Please use admin@example.com / admin123');
+		}
 	};
 
 	return (
