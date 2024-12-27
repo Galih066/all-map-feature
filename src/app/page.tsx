@@ -2,7 +2,13 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { io } from 'socket.io-client';
 import Navbar from '@/components/Navbar';
+
+const socket = io('http://localhost:3001', {
+	autoConnect: true,
+	reconnection: true
+});
 
 export default function Home() {
 	const router = useRouter();
@@ -14,6 +20,32 @@ export default function Home() {
 			router.push('/login');
 		}
 	}, [router]);
+
+	useEffect(() => {
+		socket.on('connect', () => {
+			console.log('Connected to Socket.IO server');
+		});
+
+		socket.on('disconnect', () => {
+			console.log('Disconnected from Socket.IO server');
+		});
+
+		socket.on('error', (error) => {
+			console.error('Socket.IO error:', error);
+		});
+
+		socket.on('location_update', (data) => {
+			console.log('Received location update:', data);
+		});
+
+		return () => {
+			socket.off('connect');
+			socket.off('disconnect');
+			socket.off('error');
+			socket.off('location_update');
+			socket.disconnect();
+		};
+	}, []);
 
 	return (
 		<div className="min-h-screen bg-gray-50">
